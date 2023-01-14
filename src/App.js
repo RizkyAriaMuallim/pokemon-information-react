@@ -1,23 +1,66 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState} from 'react';
+
 
 function App() {
+  const [pokemonName, setPokemonName] = useState("");
+  const [pokemonChoose, setPokemonChoose] = useState(false);
+  const [pokemonInformation, setPokemonInformation] = useState({
+    name: "", 
+    species:"", 
+    img: "", 
+    hp: "",
+    attack: "",
+    deffense: "",
+    type: "",
+  });
+
+  const getData = async ()=> {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+    const value = await res.json();
+
+    const {species, sprites, stats, types} = value;
+    const {name} = species;
+    const {front_default} = sprites;
+
+    setPokemonInformation({
+      name: pokemonName, 
+      species:name, 
+      img: front_default, 
+      hp: stats[0].base_state,
+      attack: stats[1].base_state,
+      deffense: stats[2].base_state,
+      type: types[0].type.name,
+    });
+    setPokemonChoose(true);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='app'>
+      <div className='titleSection'>
+        <h1>Pokemon Information</h1>
+        <input 
+          type="text"
+          onChange={(e)=>{
+            setPokemonName(e.target.value);
+          }}
+        />
+        <button onClick={getData}>Search Pokemon</button>
+      </div>
+      <div className='displaySection'>
+        {!pokemonChoose ? (
+          <h3>Please choose pokemon!!!</h3>
+          ) : (
+            <>
+              <h1>{pokemonInformation.name}</h1>
+              <img src={pokemonInformation.img} alt={pokemonInformation.name}/>
+              <h3>Species: {pokemonInformation.species}</h3>
+              <h3>Type: {pokemonInformation.type}</h3>
+              <h4>Hp: {pokemonInformation.hp}</h4>
+              <h4>Attack: {pokemonInformation.attack}</h4>
+              <h4>Defense: {pokemonInformation.deffense}</h4>
+            </>
+          )}
+      </div>
     </div>
   );
 }
