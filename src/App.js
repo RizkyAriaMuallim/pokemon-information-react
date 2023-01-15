@@ -18,11 +18,9 @@ function App() {
   const getData = async ()=> {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
     const value = await res.json();
-    console.log(value);
     const {species, sprites, stats, types} = value;
     const {name} = species;
     const {front_default} = sprites;
-    console.log(stats[0].base_stat);
     setPokemonInformation({
       name: pokemonName, 
       species:name, 
