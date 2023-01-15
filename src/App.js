@@ -18,18 +18,18 @@ function App() {
   const getData = async ()=> {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
     const value = await res.json();
-
+    console.log(value);
     const {species, sprites, stats, types} = value;
     const {name} = species;
     const {front_default} = sprites;
-
+    console.log(stats[0].base_stat);
     setPokemonInformation({
       name: pokemonName, 
       species:name, 
       img: front_default, 
-      hp: stats[0].base_state,
-      attack: stats[1].base_state,
-      deffense: stats[2].base_state,
+      hp: stats[0].base_stat,
+      attack: stats[1].base_stat,
+      deffense: stats[2].base_stat,
       type: types[0].type.name,
     });
     setPokemonChoose(true);
@@ -58,6 +58,7 @@ function App() {
               <h4>Hp: {pokemonInformation.hp}</h4>
               <h4>Attack: {pokemonInformation.attack}</h4>
               <h4>Defense: {pokemonInformation.deffense}</h4>
+              <br />
             </>
           )}
       </div>
