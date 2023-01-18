@@ -1,5 +1,6 @@
 import './App.css';
-import { useState} from 'react';
+import { useEffect, useState} from 'react';
+import ShowData from './ShowData';
 
 
 function App() {
@@ -14,7 +15,8 @@ function App() {
     deffense: "",
     type: "",
   });
-
+  const [allPokemonName, setAllPokemonName] = useState([]);
+  console.log(allPokemonName);
   const getData = async ()=> {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
     const value = await res.json();
@@ -32,6 +34,22 @@ function App() {
     });
     setPokemonChoose(true);
   }
+  
+  const getAllName = async () => {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/`);
+    const value = await res.json();
+    const data = value.results.map( data => {
+      return {
+        nama : data.name
+      }
+    })
+    setAllPokemonName(data);
+  }
+  
+  useEffect(()=> {
+    getAllName();
+  }, [])
+
   return (
     <div className='app'>
       <div className='titleSection'>
@@ -46,7 +64,10 @@ function App() {
       </div>
       <div className='displaySection'>
         {!pokemonChoose ? (
-          <h3>Please choose pokemon!!!</h3>
+          <>
+            <h3>Please choose pokemon!!!</h3>
+            <ShowData  />
+          </>
           ) : (
             <>
               <h1>{pokemonInformation.name}</h1>
