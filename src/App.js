@@ -16,7 +16,7 @@ function App() {
     type: "",
   });
   const [allPokemonName, setAllPokemonName] = useState([]);
-  console.log(allPokemonName);
+
   const getData = async ()=> {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
     const value = await res.json();
@@ -66,7 +66,7 @@ function App() {
         {!pokemonChoose ? (
           <>
             <h3>Please choose pokemon!!!</h3>
-            <ShowData  />
+            <ShowData data={allPokemonName}  />
           </>
           ) : (
             <>
