@@ -34,6 +34,10 @@ function App() {
     });
     setPokemonChoose(true);
   }
+
+  const refreshButton = () => {
+    setPokemonChoose(false);
+  }
   
   const getAllName = async () => {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/`);
@@ -57,7 +61,7 @@ function App() {
         <input 
           type="text"
           onChange={(e)=>{
-            setPokemonName(e.target.value);
+            setPokemonName(((e.target.value.toLowerCase())));
           }}
         />
         <button onClick={getData}>Search Pokemon</button>
@@ -70,6 +74,7 @@ function App() {
           </>
           ) : (
             <>
+              <button onClick={refreshButton}>Refresh!!!</button>
               <h1>{pokemonInformation.name}</h1>
               <img src={pokemonInformation.img} alt={pokemonInformation.name}/>
               <h3>Species: {pokemonInformation.species}</h3>

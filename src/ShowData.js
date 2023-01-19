@@ -1,15 +1,13 @@
 function ShowData(props) {
     return(
         <>
-            <h3>Halo kak</h3>
-            {props.data.map((names, index) => (
-                <div key={index}>
-                    <ul>
-                        <li>{names.nama}</li>
-                    </ul>
-                </div>
-            ))
-            }
+            <h3>List Name of Pokemon!!!</h3>
+            <ul>
+                {props.data.map((names, index) => (
+                    <li key={index}>{names.nama}</li>
+                ))
+                }
+            </ul>
         </>
     )
 };
